@@ -1,0 +1,22 @@
+{
+  "name": "common-fe",
+  "version": "1.0.0",
+  "description": "common scripts for averism frontend",
+  "main": "index.js",
+  "scripts": {
+    "build": "node scripts/build.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Averism/common-fe.git"
+  },
+  "author": "averman",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/Averism/common-fe/issues"
+  },
+  "homepage": "https://github.com/Averism/common-fe#readme",
+  "devDependencies": {
+    "js-yaml": "^4.1.0"
+  }
+}
