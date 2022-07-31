@@ -6,7 +6,7 @@ phases:
       - echo Entered the build phase...
       - echo Build started on `date`
       - npm run build
-  postbuild:
+  post_build:
     commands:
       - echo Entered the postbuild phase...
       - echo listing all files on build directory
