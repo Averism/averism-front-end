@@ -10,8 +10,8 @@ phases:
   post_build:
     commands:
       - echo Entered the postbuild phase...
-      - echo listing all files on build directory
-      - find ./build
+      - uploading to s3
+      - aws s3 cp --recursive build s3://static.averism.com
 
 artifacts:
   files:
