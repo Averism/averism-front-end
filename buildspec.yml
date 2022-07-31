@@ -1,0 +1,18 @@
+version: 0.2
+
+phases:
+  build:
+    commands:
+      - echo Entered the build phase...
+      - echo Build started on `date`
+      - npm run build
+  postbuild:
+    commands:
+      - echo Entered the postbuild phase...
+      - echo listing all files on build directory
+      - find ./build
+
+artifacts:
+  files:
+    - 'build/*'
+    - 'build/**/*'
