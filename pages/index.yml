@@ -1,4 +1,7 @@
 title: Averism
-layout: mainpage
+components: 
+  - component: header 
+    layout: basicHeader
 data:
-  description: "welcome to Averism!"
+  tabname: "welcome to Averism!"
+  title: Averism

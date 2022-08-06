@@ -1,4 +1,6 @@
 const buildPages = require('./buildPages');
+const buildScripts = require('./buildScripts');
+const processDependency = require('./processDependency');
 const fs = require('fs');
 
 async function build(){
@@ -11,8 +13,14 @@ async function build(){
         fs.mkdirSync('./build');
     }
 
+    console.log("building scripts");
+    await buildScripts();
+
+    console.log("building dependencies");
+    const dependency = await processDependency();
+
     console.log("building html pages");
-    await buildPages();
+    await buildPages(dependency);
     return;
 }
 
