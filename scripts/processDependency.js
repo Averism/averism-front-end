@@ -18,7 +18,13 @@ function translateDependency(context,dependency) {
     } else if(context == 'component') {
         if(dependency.startsWith('../module')) {
             return dependency.replace('../module/', 'module_').replace(/\/index(.ts)?$/,'');
-        }else if(dependency.startsWith('../')) {
+        }else if(dependency.startsWith('./')) {
+            return dependency.replace('./', 'component_');
+        }  
+    } else if(context == 'runnable') {
+        if(dependency.startsWith('../module')) {
+            return dependency.replace('../module/', 'module_').replace(/\/index(.ts)?$/,'');
+        }else if(dependency.startsWith('../components')) {
             return dependency.replace('../components', 'component_');
         }  
     }
@@ -36,10 +42,10 @@ module.exports = async function processDependency() {
         }
         result[`module_${module}`] = Array.from(moduleDependency).filter(x=>x);
     }
-    const components = fs.readdirSync(path.resolve(__dirname, '..', 'src', 'components'));
+    const components = fs.readdirSync(path.resolve(__dirname, '..', 'src', 'runnable'));
     for(let component of components) {
-        const filepath = path.join(__dirname, '..', 'src', 'components', component);
-        result[`component_${component.substring(0,component.length-3)}`] = getDependencyFromFile(filepath).filter(x=>x).map(x=>translateDependency('component',x));
+        const filepath = path.join(__dirname, '..', 'src', 'runnable', component);
+        result[`runnable_${component.substring(0,component.length-3)}`] = getDependencyFromFile(filepath).filter(x=>x).map(x=>translateDependency('runnable',x));
     }
     return result;
 }

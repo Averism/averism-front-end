@@ -11,8 +11,8 @@ const modulesPlugin = modules.map(x => new DllReferencePlugin({
     sourceType: "jsonp"
 }
 ));
-const components = fs.readdirSync(path.resolve(__dirname, '..', 'src', 'components')).map(x => x.split('.')[0]);
-const componentEntry = Object.fromEntries(components.map(x => [`component_${x}`, path.resolve(__dirname, '..', 'src', 'components', x + '.ts')]));
+const runnables = fs.readdirSync(path.resolve(__dirname, '..', 'src', 'runnable')).map(x => x.split('.')[0]);
+const runnableEntry = Object.fromEntries(runnables.map(x => [`runnable_${x}`, path.resolve(__dirname, '..', 'src', 'runnable', x + '.ts')]));
 
 async function runWebpack(config) {
     return new Promise((resolve, reject) => {
@@ -35,5 +35,5 @@ module.exports = async function buildScripts() {
             sourceType: "jsonp"
         }
     )]));
-    await runWebpack(configF(componentEntry, true, modulesPlugin));
+    await runWebpack(configF(runnableEntry, false, modulesPlugin));
 }

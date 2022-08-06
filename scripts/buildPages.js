@@ -41,12 +41,14 @@ function getDependency(item, dependencies) {
 }
 
 function compileDependency(pageData, dependencies) {
-    const components = pageData.components.map(x=>x.component);
+    const componentRunnables = pageData.components.map(x=>x.runnables);
     let result = [];
-    for(let component of components) {
-        let current = ["component_" + component];
-        let componentDeps = getDependency(current, dependencies);
-        result = mergeDependencies([result, componentDeps]);
+    for(let runnables of componentRunnables) {
+        for(let runnable of runnables) {
+            let current = ["runnable_" + runnable];
+            let runnableDeps = getDependency(current, dependencies);
+            result = mergeDependencies([result, runnableDeps]);
+        }
     }
     return result;
 }

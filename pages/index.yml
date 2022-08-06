@@ -2,6 +2,8 @@ title: Averism
 components: 
   - component: header 
     layout: basicHeader
+    runnables: 
+      - login
 data:
   tabname: "welcome to Averism!"
   title: Averism
