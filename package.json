@@ -7,6 +7,7 @@
     "build": "node scripts/build.js",
     "webpack": "rm -rf build/scripts && webpack --config webpack-module.config.js  && webpack --config webpack.config.js",
     "start": "node -r ts-node/register src/index.ts",
+    "local": "npm run build && node scripts/localrun.js",
     "test": "mocha",
     "cov": "nyc --reporter=lcov --reporter=text mocha"
   },

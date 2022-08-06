@@ -5,8 +5,10 @@ export class AuthService implements Service {
     clientId: string = '73g7s1vkbgf7vgknimupgaghsn';
 
     constructor(cognitoUrl?: string, clientId?: string) {
+        console.log(cognitoUrl, clientId);
         if (cognitoUrl) {this.cognitoUrl = cognitoUrl;}
         if (clientId) {this.clientId = clientId;}
+        console.log(this);
     }
 
     async start(): Promise<void> {

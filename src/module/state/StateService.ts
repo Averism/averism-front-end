@@ -1,5 +1,5 @@
 import {State} from "./State";
-import {Service} from "../servicemanager"
+import {Service, serviceManagerInstance} from "../servicemanager"
 
 export class StateService implements Service {
     name(): string {
@@ -16,6 +16,8 @@ export class StateService implements Service {
         switch (method) {
             case "save": return this.save();
             case "register": return this.registerState(args[0], args[1]);
+            case "get": return this.getState(args[0], args[1]);
+            case "set": return this.setState(args[0], args[1], args[2]);
             default: return Promise.reject(`Unknown method: ${method}`);
         }
     }
@@ -26,11 +28,15 @@ export class StateService implements Service {
         if (!order) {
             order = Math.max(...Object.values(this.states).map(x=>x.order)) + 1;
         }
-        this.states[state.name] = {state, order};
+        this.states[state.name()] = {state, order};
     }
 
-    async getState(name: string): Promise<State> {
-        return this.states[name].state;
+    async getState(name: string, key: string): Promise<any> {
+        return this.states[name].state.get(key);
+    }
+
+    async setState(name: string, key: string, value: any): Promise<void> {
+        return this.states[name].state.set(key, value);
     }
 
     async save() {
@@ -41,3 +47,6 @@ export class StateService implements Service {
         return;
     }
 }
+
+export const stateServiceInstance = new StateService();
+serviceManagerInstance.registerService(stateServiceInstance);

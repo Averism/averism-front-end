@@ -14,7 +14,7 @@ export class ServiceManager{
 
     async callOne(name: string, method: string, ...args: any[]): Promise<any> {
         const services = this.services[name];
-        if (!services) throw new Error(`No service registered for ${name}`);
+        if (!services) return;
         let result = undefined;
         for(let service of this.services[name]){
             try{
@@ -27,7 +27,7 @@ export class ServiceManager{
 
     async callAll(name: string, method: string, ...args: any[]): Promise<any[]> {
         const services = this.services[name];
-        if (!services) throw new Error(`No service registered for ${name}`);
+        if (!services) return;
         const promises = services.map(service => service.call(method, ...args));
         let result = await Promise.all(promises).then(results => results.filter(x => x !== null));
         if (result.every(x => Array.isArray(x))) return result.flatMap(x => x);

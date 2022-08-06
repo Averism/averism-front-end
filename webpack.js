@@ -1,13 +1,16 @@
 const path = require('path');
-const { DllPlugin } = require('webpack');
+const { DllPlugin, DllReferencePlugin } = require('webpack');
 
-module.exports = function (entry, exportDll = false, referencePlugins = []) {
-  let exportDllPlugin = exportDll ?
-    [new DllPlugin({
+module.exports = function (entry, exportDll = false, externalDependencies = []) {
+  let exportDllPlugin = exportDll ?[new DllPlugin({
       context: __dirname,
       name: "[name].js",
-      path: path.resolve(__dirname, 'build', 'scripts', 'manifests', '[name].json')
-    })] : [];
+      path: path.resolve(__dirname, 'build', 'scripts', 'manifests', '[name].json'),
+      type: "window"})] : [];
+  const referencePlugins = externalDependencies.map(x => new DllReferencePlugin({
+    manifest: path.resolve(__dirname,  'build', 'scripts', "manifests", `${x}.json`),
+    sourceType: "window",
+  }));
   return {
     entry,
     module: {
@@ -50,11 +53,28 @@ module.exports = function (entry, exportDll = false, referencePlugins = []) {
     output: {
       filename: '[name].js',
       path: path.resolve(__dirname, 'build', 'scripts'),
-      chunkLoading: 'jsonp',
+      library: {
+        name: '[name].js',
+        type: 'window'
+      }
     },
     optimization: {
       minimize: false
     },
-    plugins: [...exportDllPlugin, ...referencePlugins]
+    plugins: [...exportDllPlugin, ...referencePlugins],
+    externals: [
+      function ({ context, request }, callback) {
+        if(context == __dirname) return callback()
+        console.log("EXTERNALS CONTEXT",context);
+        console.log("EXTERNALS REQUEST",request);
+        if (/^yourregex$/.test(request)) {
+          // Externalize to a commonjs module using the request path
+          return callback(null, 'commonjs ' + request);
+        }
+  
+        // Continue without externalizing the import
+        callback();
+      },
+    ],
   };
 }

@@ -4,6 +4,7 @@ components:
     layout: basicHeader
     runnables: 
       - login
+      - redirect
 data:
   tabname: "welcome to Averism!"
   title: Averism

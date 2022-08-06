@@ -5,5 +5,5 @@ document.addEventListener("DOMContentLoaded", async () => {
     authService.start();
 
     let loginButton = document.getElementById("login");
-    loginButton.addEventListener("click", authService.login);
+    loginButton.addEventListener("click", ()=>authService.login());
 });
